@@ -4,26 +4,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 class Calculator implements ActionListener {
-  private JFrame frame;
-
   // Text Fields and Labels
   private JTextField field1;
   private JTextField field2;
-  private JLabel value1;
-  private JLabel value2;
   private JLabel resLabel;
-
-  // Panels
-  private JPanel panel1;
-  private JPanel panel2;
-  private JPanel btns;
-  private JPanel res;
-
-  // Buttons
-  private JButton add;
-  private JButton sub;
-  private JButton mul;
-  private JButton div;
 
   public Calculator() {
     createWindow();
@@ -35,41 +19,41 @@ class Calculator implements ActionListener {
 
   public void createWindow() {
     // New window
-    frame = new JFrame("Calculator");
+    JFrame frame = new JFrame("Calculator");
     frame.setLayout(null);
     frame.setResizable(false);
 
     // Panels for label, buttons, fields
-    panel1 = new JPanel(new BorderLayout());
+    JPanel panel1 = new JPanel(new BorderLayout());
     panel1.setBounds(5, 5, 470, 35);
 
-    panel2 = new JPanel(new BorderLayout());
+    JPanel panel2 = new JPanel(new BorderLayout());
     panel2.setBounds(5, 45, 470, 35);
 
-    btns = new JPanel();
-    btns.setBounds(5, 85, 470, 35);
+    JPanel buttons = new JPanel();
+    buttons.setBounds(5, 85, 470, 35);
 
-    res = new JPanel();
+    JPanel res = new JPanel();
     res.setBounds(5, 125, 470, 35);
     res.setBackground(Color.gray);
 
     // Text fields and labels
     field1 = new JTextField();
-    value1 = new JLabel("Value 1: ");
+    JLabel value1 = new JLabel("Value 1: ");
 
     field2 = new JTextField();
-    value2 = new JLabel("Value 2: ");
+    JLabel value2 = new JLabel("Value 2: ");
 
     resLabel = new JLabel("Result Shown Here");
 
     // Buttons
-    add = new JButton("Add");
+    JButton add = new JButton("Add");
     add.addActionListener(this);
-    sub = new JButton("Subtract");
+    JButton sub = new JButton("Subtract");
     sub.addActionListener(this);
-    mul = new JButton("Multiply");
+    JButton mul = new JButton("Multiply");
     mul.addActionListener(this);
-    div = new JButton("Divide");
+    JButton div = new JButton("Divide");
     div.addActionListener(this);
 
     // Add fields and labels to the panels
@@ -80,15 +64,15 @@ class Calculator implements ActionListener {
     res.add(resLabel, BorderLayout.CENTER);
 
     // Adding the buttons
-    btns.add(add);
-    btns.add(sub);
-    btns.add(mul);
-    btns.add(div);
+    buttons.add(add);
+    buttons.add(sub);
+    buttons.add(mul);
+    buttons.add(div);
 
     // Add the panels to the frame
     frame.add(panel1);
     frame.add(panel2);
-    frame.add(btns);
+    frame.add(buttons);
     frame.add(res);
 
     // Finalize the frame
@@ -99,17 +83,22 @@ class Calculator implements ActionListener {
   }
 
   public void actionPerformed(ActionEvent e) {
-    String val1 = (field1.getText());
-    String val2 = (field2.getText());
+    // Get the entries from the fields
+    String val1 = field1.getText();
+    String val2 = field2.getText();
+
+    // Check if entered value is numeric
     if (this.isNan(val1) || this.isNan(val2)) {
       resLabel.setText("Please provide a valid number!");
       return;
     }
 
+    // Parse into integer in above test passes
     Integer num1 = Integer.parseInt(val1);
     Integer num2 = Integer.parseInt(val2);
     int ans;
 
+    // Determine which operator to use
     switch (((JButton) e.getSource()).getText()) {
       case "Add":
         ans = num1 + num2;
@@ -131,12 +120,16 @@ class Calculator implements ActionListener {
   }
 
   public boolean isNan(String str) {
+    // If input is null confirm as NaN
     if (str == null) return true;
     try {
+      // Try to parse into a integer
       Integer.parseInt(str);
     } catch (NumberFormatException e) {
+      // If there is error then confirm as NaN
       return true;
     }
+    // If parsed successfully confirm as integer
     return false;
   }
 }
